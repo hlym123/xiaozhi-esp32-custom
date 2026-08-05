@@ -242,6 +242,9 @@ choice BOARD_TYPE
     config BOARD_TYPE_M5STACK_STICKS3
         bool "M5Stack StickS3"
         depends on IDF_TARGET_ESP32S3
+    config BOARD_TYPE_M5STACK_PAPERCOLOR_7INCH
+        bool "M5Stack PaperColor 7Inch"
+        depends on IDF_TARGET_ESP32S3
     config BOARD_TYPE_M5STACK_CARDPUTER_ADV
         bool "M5Stack Cardputer Adv"
         depends on IDF_TARGET_ESP32S3
