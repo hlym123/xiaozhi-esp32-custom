@@ -16,7 +16,8 @@
 // System I2C0 and ES8311
 #define AUDIO_CODEC_I2C_SDA_PIN GPIO_NUM_1
 #define AUDIO_CODEC_I2C_SCL_PIN GPIO_NUM_2
-#define AUDIO_CODEC_ES8311_ADDR 0x18
+// esp_codec_dev expects the ES8311 8-bit I2C address.
+#define AUDIO_CODEC_ES8311_ADDR (0x18 << 1)
 #define AUDIO_CODEC_GPIO_PA     GPIO_NUM_45
 
 // M5PM1 controls the codec power rail through GPIO4.

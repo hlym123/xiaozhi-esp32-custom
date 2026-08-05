@@ -6,8 +6,10 @@
 
 #include "M5PM1.h"
 
+#include <driver/gpio.h>
 #include <driver/i2c_master.h>
 #include <esp_log.h>
+#include <esp_rom_sys.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
@@ -48,6 +50,32 @@ private:
         ESP_LOGI(TAG, "Codec power enabled by M5PM1 GPIO%d", PMIC_CODEC_POWER_GPIO);
     }
 
+    void InitializePa() {
+        gpio_config_t io_conf = {
+            .pin_bit_mask = (1ULL << AUDIO_CODEC_GPIO_PA),
+            .mode = GPIO_MODE_OUTPUT,
+            .pull_up_en = GPIO_PULLUP_DISABLE,
+            .pull_down_en = GPIO_PULLDOWN_DISABLE,
+            .intr_type = GPIO_INTR_DISABLE,
+        };
+        ESP_ERROR_CHECK(gpio_config(&io_conf));
+
+        gpio_set_level(AUDIO_CODEC_GPIO_PA, 0);
+        vTaskDelay(pdMS_TO_TICKS(2));
+
+        for (int i = 0; i < 2; ++i) {
+            gpio_set_level(AUDIO_CODEC_GPIO_PA, 1);
+            esp_rom_delay_us(5);
+            if (i != 1) {
+                gpio_set_level(AUDIO_CODEC_GPIO_PA, 0);
+                esp_rom_delay_us(5);
+            }
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(2));
+        ESP_LOGI(TAG, "AW8737A mode 2 (1W), GPIO%d held high", AUDIO_CODEC_GPIO_PA);
+    }
+
     void InitializeButtons() {
         key1_.OnClick([this]() {
             auto& app = Application::GetInstance();
@@ -71,6 +99,7 @@ public:
         : key1_(KEY1_GPIO), key2_(KEY2_GPIO) {
         InitializeI2c();
         InitializePower();
+        InitializePa();
         InitializeButtons();
     }
 
