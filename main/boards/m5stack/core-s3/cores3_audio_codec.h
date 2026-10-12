@@ -18,15 +18,18 @@ private:
     esp_codec_dev_handle_t output_dev_ = nullptr;
     esp_codec_dev_handle_t input_dev_ = nullptr;
 
-    void CreateDuplexChannels(gpio_num_t mclk, gpio_num_t bclk, gpio_num_t ws, gpio_num_t dout, gpio_num_t din);
+    void CreateDuplexChannels(gpio_num_t mclk, gpio_num_t bclk, gpio_num_t ws, gpio_num_t dout,
+                              gpio_num_t din);
+    void ConfigureOutputForAec();
 
     virtual int Read(int16_t* dest, int samples) override;
     virtual int Write(const int16_t* data, int samples) override;
 
 public:
     CoreS3AudioCodec(void* i2c_master_handle, int input_sample_rate, int output_sample_rate,
-        gpio_num_t mclk, gpio_num_t bclk, gpio_num_t ws, gpio_num_t dout, gpio_num_t din,
-        uint8_t aw88298_addr, uint8_t es7210_addr, bool input_reference);
+                     gpio_num_t mclk, gpio_num_t bclk, gpio_num_t ws, gpio_num_t dout,
+                     gpio_num_t din, uint8_t aw88298_addr, uint8_t es7210_addr,
+                     bool input_reference);
     virtual ~CoreS3AudioCodec();
 
     virtual void SetOutputVolume(int volume) override;
@@ -34,4 +37,4 @@ public:
     virtual void EnableOutput(bool enable) override;
 };
 
-#endif // _BOX_AUDIO_CODEC_H
+#endif  // _BOX_AUDIO_CODEC_H
