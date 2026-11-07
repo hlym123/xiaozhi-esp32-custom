@@ -19,7 +19,6 @@ dependencies:
   waveshare/custom_io_expander_ch32v003: ^1.0.0
   espressif/esp_lcd_panel_io_additions: ^1.0.1
   # 78/esp_lcd_nv3023: ~1.0.0
-  78/esp-wifi-connect: ~3.0.2
   espressif/esp_audio_effects: ~1.2.1
   espressif/esp_audio_codec: ~2.4.1
   78/esp-ml307: ~3.6.4
@@ -34,14 +33,14 @@ dependencies:
   espressif/button: ~4.1.5
   espressif/knob: ^1.0.0
   espressif/esp32-camera:
-    version: ^2.1.4
+    version: ^2.1.3
     rules:
     - if: target in [esp32s3]
   espressif/esp_video:
     version: ==1.3.1   # for compatibility. update version may need to modify this project code.
     rules:
     - if: target in [esp32p4, esp32s3]
-  
+
   espressif/esp_image_effects:
     version: ^1.0.1
     rules:
@@ -64,6 +63,14 @@ dependencies:
     - if: target in [esp32s3]
   espressif/adc_battery_estimation: ^0.2.0
   espressif/esp_new_jpeg: ^0.6.1
+  espressif/iot_eth:
+    version: '*'
+    rules:
+    - if: target in [esp32p4, esp32s3]
+  espressif/iot_usbh_rndis:
+    version: '*'
+    rules:
+    - if: target in [esp32p4, esp32s3]
 
   # SenseCAP Watcher Board
   wvirgil123/sscma_client:
@@ -125,3 +132,9 @@ dependencies:
   m5stack/m5ioe1: ^1.0.4
   espressif/mqtt: ^1.0.0
   espressif/cjson: ^1.7.19~1
+  # esp_video 1.3.1 requires esp_cam_sensor 1.5.*; use 2.x only when upgrading esp_video
+  espressif/esp_cam_sensor: "^1.5.0"
+  espressif/esp_ipa:
+    version: ^1.3.1
+    rules:
+    - if: target == "esp32p4"
